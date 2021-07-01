@@ -1,0 +1,14 @@
+#sketch-container {
+  border-top: 1px solid red;
+  border-left: 1px solid red;
+  height: 1000px;
+  width: 1000px;
+  display: grid;
+  grid-template-rows: repeat(100, auto);
+  grid-template-columns: repeat(100, auto);
+}
+
+.grid-box {
+  border-bottom: 1px solid red;
+  border-right: 1px solid red;
+}
