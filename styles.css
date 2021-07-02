@@ -1,19 +1,21 @@
 :root {
   --grid-size: 50;
+  --border: 1px solid rgb(170, 170, 170);
+  --grid-container-height: 1000px;
 }
 
 #sketch-container {
-  border: 1px solid black;
-  /* border-top: 1px solid red;
-  border-left: 1px solid red; */
-  height: 1000px;
-  width: 1000px;
+  /* border: 1px solid black; */
+  border-top: var(--border);
+  border-left: var(--border);
+  height: var(--grid-container-height);
+  width: var(--grid-container-height);
   display: grid;
   grid-template-rows: repeat(var(--grid-size), auto);
   grid-template-columns: repeat(var(--grid-size), auto);
 }
 
 .grid-box {
-  border-bottom: 1px solid red;
-  border-right: 1px solid red;
+  border-bottom: var(--border);
+  border-right: var(--border);
 }
