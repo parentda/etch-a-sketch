@@ -1,13 +1,24 @@
 :root {
   --grid-size: 50;
-  --border: 1px solid rgb(170, 170, 170);
+  --border-thin: 1px solid rgb(170, 170, 170);
+  --border-diff: 3px solid rgb(170, 170, 170);
+  --border-thick: 4px solid rgb(170, 170, 170);
   --grid-container-height: 1000px;
 }
 
+.container-border-grid-on {
+  border-top: var(--border-thick);
+  border-left: var(--border-thick);
+  border-bottom: var(--border-diff);
+  border-right: var(--border-diff);
+}
+
+.container-border-grid-off {
+  border: var(--border-thick);
+}
+
 #sketch-container {
-  /* border: 1px solid black; */
-  border-top: var(--border);
-  border-left: var(--border);
+  margin: 10px;
   height: var(--grid-container-height);
   width: var(--grid-container-height);
   display: grid;
@@ -16,6 +27,9 @@
 }
 
 .grid-box {
-  border-bottom: var(--border);
-  border-right: var(--border);
+}
+
+.grid-lines {
+  border-bottom: var(--border-thin);
+  border-right: var(--border-thin);
 }
