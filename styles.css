@@ -1,35 +1,29 @@
 :root {
+  --background-color: rgb(170, 64, 64) !important;
+  --line-color: rgb(170, 170, 170);
   --grid-size: 50;
-  --border-thin: 1px solid rgb(170, 170, 170);
-  --border-diff: 3px solid rgb(170, 170, 170);
-  --border-thick: 4px solid rgb(170, 170, 170);
-  --grid-container-height: 1000px;
-}
-
-.container-border-grid-on {
-  border-top: var(--border-thick);
-  border-left: var(--border-thick);
-  border-bottom: var(--border-diff);
-  border-right: var(--border-diff);
-}
-
-.container-border-grid-off {
-  border: var(--border-thick);
+  --border-thin: 1px solid var(--line-color);
+  --border-thick: 4px solid var(--line-color);
+  --grid-container-dimensions: 960px;
 }
 
 #sketch-container {
+  border: var(--border-thick);
   margin: 10px;
-  height: var(--grid-container-height);
-  width: var(--grid-container-height);
+  background-color: var(--line-color);
+  /* padding: 1px; */
+  height: var(--grid-container-dimensions);
+  width: var(--grid-container-dimensions);
   display: grid;
   grid-template-rows: repeat(var(--grid-size), auto);
   grid-template-columns: repeat(var(--grid-size), auto);
+  justify-content: stretch;
 }
 
 .grid-box {
 }
 
 .grid-lines {
-  border-bottom: var(--border-thin);
-  border-right: var(--border-thin);
+  border: var(--border-thin);
+  background-color: var(--background-color);
 }

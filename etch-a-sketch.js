@@ -20,11 +20,11 @@ document.addEventListener("pointerup", () => {
 // -----------------------------------------------------------
 // Define the various drawing functions below
 
-let drawFunction = changeColor;
-
 function changeColor(event) {
-  if (mouseDown) {
-    event.target.style.backgroundColor = "hsl(120,60%,50%";
+  if (event.type === "pointerdown") {
+    event.target.style.backgroundColor = "hsl(120,60%,50%)"; // change this to drawFunction and have the various draw functions return an hsl value
+  } else if (mouseDown) {
+    event.target.style.backgroundColor = "hsl(120,60%,50%)";
   }
 }
 
@@ -52,7 +52,8 @@ function drawGrid() {
   for (let i = 0; i < gridSize ** 2; i += 1) {
     const gridBox = document.createElement("div");
     gridBox.classList.add("grid-box", "grid-lines");
-    gridBox.addEventListener("mouseover", drawFunction);
+    gridBox.addEventListener("pointerdown", changeColor);
+    gridBox.addEventListener("mouseover", changeColor);
     sketchContainer.appendChild(gridBox);
   }
 }
@@ -63,17 +64,20 @@ function drawGrid() {
 let gridOn = true;
 
 function toggleGridLines() {
-  sketchContainer.classList.toggle("container-border-grid-on");
-  sketchContainer.classList.toggle("container-border-grid-off");
-
   if (gridOn) {
     root.style.setProperty("--border-thin", "0px");
     gridOn = false;
   } else {
-    root.style.setProperty("--border-thin", "1px solid rgb(170, 170, 170)");
+    root.style.setProperty("--border-thin", "1px solid var(--line-color)");
     gridOn = true;
   }
 }
 
 const gridToggleButton = document.querySelector("#toggle-grid-lines");
 gridToggleButton.addEventListener("click", toggleGridLines);
+
+// -----------------------------------------------------------
+// Reset the sketch container
+
+const resetButton = document.querySelector("#reset-button");
+resetButton.addEventListener("click", drawGrid);
