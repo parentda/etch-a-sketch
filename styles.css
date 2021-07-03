@@ -5,6 +5,7 @@
   --border-thin: 1px solid var(--line-color);
   --border-thick: 4px solid var(--line-color);
   --grid-container-dimensions: 600px;
+  font-family: Menlo;
 }
 
 #sketch-container {

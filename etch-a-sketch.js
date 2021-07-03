@@ -7,8 +7,11 @@ const drawColorPicker = document.querySelector("#draw-color-picker");
 const backgroundColorPicker = document.querySelector(
   "#background-color-picker"
 );
+const gridToggleButton = document.querySelector("#toggle-grid-lines");
+const resetButton = document.querySelector("#reset-button");
+const drawButton = document.querySelector("#draw-button");
 const eraserButton = document.querySelector("#eraser-button");
-const rainbowButton = document.querySelector("#rainbow-button");
+const randomButton = document.querySelector("#random-button");
 
 // -----------------------------------------------------------
 // Set default color picker and drawing behaviour
@@ -22,20 +25,25 @@ let drawMethod = basicDraw;
 
 drawColorPicker.addEventListener("input", (e) => {
   penColor = e.target.value;
-  drawMethod = basicDraw;
+  console.log(penColor);
 });
 
 backgroundColorPicker.addEventListener("input", (e) => {
   backgroundColor = e.target.value;
   root.style.setProperty("--background-color", backgroundColor);
+  console.log(backgroundColor);
+});
+
+drawButton.addEventListener("click", () => {
+  drawMethod = basicDraw;
 });
 
 eraserButton.addEventListener("click", () => {
   drawMethod = eraseDraw;
 });
 
-rainbowButton.addEventListener("click", () => {
-  drawMethod = rainbowDraw;
+randomButton.addEventListener("click", () => {
+  drawMethod = randomDraw;
 });
 
 // -----------------------------------------------------------
@@ -57,7 +65,6 @@ document.addEventListener("pointerup", () => {
 function changeColor(event) {
   if (event.type === "pointerdown" || mouseDown) {
     drawMethod(event);
-    console.log(drawMethod);
   }
 }
 
@@ -69,7 +76,7 @@ function eraseDraw(event) {
   event.target.removeAttribute("style");
 }
 
-function rainbowDraw(event) {
+function randomDraw(event) {
   function randomRGBValue() {
     return Math.floor(Math.random() * 255);
   }
@@ -146,13 +153,10 @@ function toggleGridLines() {
   }
 }
 
-const gridToggleButton = document.querySelector("#toggle-grid-lines");
 gridToggleButton.addEventListener("click", toggleGridLines);
 
 // -----------------------------------------------------------
 // Reset the sketch container
-
-const resetButton = document.querySelector("#reset-button");
 
 function resetStyling() {
   const gridItems = document.querySelectorAll(".grid-box");
