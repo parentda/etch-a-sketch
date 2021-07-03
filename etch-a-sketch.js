@@ -7,20 +7,35 @@ const drawColorPicker = document.querySelector("#draw-color-picker");
 const backgroundColorPicker = document.querySelector(
   "#background-color-picker"
 );
+const eraserButton = document.querySelector("#eraser-button");
+const rainbowButton = document.querySelector("#rainbow-button");
 
-let drawColor = drawColorPicker.value;
+// -----------------------------------------------------------
+// Set default color picker and drawing behaviour
+let penColor = drawColorPicker.value;
 let backgroundColor = backgroundColorPicker.value;
+
+let drawMethod = basicDraw;
 
 // -----------------------------------------------------------
 // Allow user to manually select draw and background colors
 
 drawColorPicker.addEventListener("input", (e) => {
-  drawColor = e.target.value;
+  penColor = e.target.value;
+  drawMethod = basicDraw;
 });
 
 backgroundColorPicker.addEventListener("input", (e) => {
   backgroundColor = e.target.value;
   root.style.setProperty("--background-color", backgroundColor);
+});
+
+eraserButton.addEventListener("click", () => {
+  drawMethod = eraseDraw;
+});
+
+rainbowButton.addEventListener("click", () => {
+  drawMethod = rainbowDraw;
 });
 
 // -----------------------------------------------------------
@@ -40,11 +55,25 @@ document.addEventListener("pointerup", () => {
 // Define the various drawing functions below
 
 function changeColor(event) {
-  if (event.type === "pointerdown") {
-    event.target.style.backgroundColor = drawColor; // change this to drawFunction and have the various draw functions return an hsl value
-  } else if (mouseDown) {
-    event.target.style.backgroundColor = drawColor;
+  if (event.type === "pointerdown" || mouseDown) {
+    drawMethod(event);
+    console.log(drawMethod);
   }
+}
+
+function basicDraw(event) {
+  event.target.style.backgroundColor = penColor;
+}
+
+function eraseDraw(event) {
+  event.target.removeAttribute("style");
+}
+
+function rainbowDraw(event) {
+  function randomRGBValue() {
+    return Math.floor(Math.random() * 255);
+  }
+  event.target.style.backgroundColor = `rgb(${randomRGBValue()},${randomRGBValue()},${randomRGBValue()})`;
 }
 
 // -----------------------------------------------------------
