@@ -22,9 +22,9 @@ document.addEventListener("pointerup", () => {
 
 function changeColor(event) {
   if (event.type === "pointerdown") {
-    event.target.style.backgroundColor = "hsl(120,60%,50%)"; // change this to drawFunction and have the various draw functions return an hsl value
+    event.target.style.backgroundColor = "hsl(98.6,54.4%,40.4%)"; // change this to drawFunction and have the various draw functions return an hsl value
   } else if (mouseDown) {
-    event.target.style.backgroundColor = "hsl(120,60%,50%)";
+    event.target.style.backgroundColor = "hsl(98.6,54.4%,40.4%)";
   }
 }
 
@@ -41,48 +41,47 @@ gridSizeInput.addEventListener("input", () => {
 
 gridSizeInput.addEventListener("input", drawGrid);
 
-function drawGrid() {
-  const gridSize = gridSizeInput.value;
-  root.style.setProperty("--grid-size", gridSize);
-
-  while (sketchContainer.firstChild) {
-    sketchContainer.removeChild(sketchContainer.firstChild);
-  }
-
-  for (let i = 0; i < gridSize ** 2; i += 1) {
-    const gridBox = document.createElement("div");
-    gridBox.classList.add("grid-box", "grid-lines");
-    gridBox.addEventListener("pointerdown", changeColor);
-    gridBox.addEventListener("mouseover", changeColor);
-    sketchContainer.appendChild(gridBox);
-  }
-}
-
-// let currentTotalCells = 0;
-
-// function drawGrid2() {
+// function drawGrid() {
 //   const gridSize = gridSizeInput.value;
-//   const targetGridDimensions = gridSizeInput.value;
 //   root.style.setProperty("--grid-size", gridSize);
 
-//   if (currentTotalCells > targetGridDimensions ** 2) {
-//     while (currentTotalCells > targetGridDimensions ** 2) {
-//       sketchContainer.removeChild(sketchContainer.lastChild);
-//       currentTotalCells -= 1;
-//     }
-//   } else if (currentTotalCells < targetGridDimensions ** 2) {
-//     while (currentTotalCells < targetGridDimensions ** 2) {
-//       const gridBox = document.createElement("div");
-//       gridBox.classList.add("grid-box", "grid-lines");
-//       gridBox.addEventListener("pointerdown", changeColor);
-//       gridBox.addEventListener("mouseover", changeColor);
-//       sketchContainer.appendChild(gridBox);
-//       currentTotalCells += 1;
-//     }
-//   } else {
-//     reset();
+//   while (sketchContainer.firstChild) {
+//     sketchContainer.removeChild(sketchContainer.firstChild);
+//   }
+
+//   for (let i = 0; i < gridSize ** 2; i += 1) {
+//     const gridBox = document.createElement("div");
+//     gridBox.classList.add("grid-box", "grid-lines");
+//     gridBox.addEventListener("pointerdown", changeColor);
+//     gridBox.addEventListener("mouseover", changeColor);
+//     sketchContainer.appendChild(gridBox);
 //   }
 // }
+
+let currentTotalCells = 0;
+
+function drawGrid() {
+  const gridSize = gridSizeInput.value;
+  const targetGridDimensions = gridSizeInput.value;
+  root.style.setProperty("--grid-size", gridSize);
+
+  if (currentTotalCells > targetGridDimensions ** 2) {
+    while (currentTotalCells > targetGridDimensions ** 2) {
+      sketchContainer.removeChild(sketchContainer.lastChild);
+      currentTotalCells -= 1;
+    }
+  } else if (currentTotalCells < targetGridDimensions ** 2) {
+    while (currentTotalCells < targetGridDimensions ** 2) {
+      const gridBox = document.createElement("div");
+      gridBox.classList.add("grid-box", "grid-lines");
+      gridBox.addEventListener("pointerdown", changeColor);
+      gridBox.addEventListener("mouseover", changeColor);
+      sketchContainer.appendChild(gridBox);
+      currentTotalCells += 1;
+    }
+  }
+  reset();
+}
 
 // -----------------------------------------------------------
 // Allow user to toggle the grid line visibility

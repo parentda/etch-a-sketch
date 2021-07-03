@@ -1,10 +1,10 @@
 :root {
-  --background-color: rgb(170, 64, 64);
+  --background-color: rgb(255, 255, 255);
   --line-color: rgb(170, 170, 170);
   --grid-size: 50;
   --border-thin: 1px solid var(--line-color);
   --border-thick: 4px solid var(--line-color);
-  --grid-container-dimensions: 960px;
+  --grid-container-dimensions: 600px;
 }
 
 #sketch-container {
