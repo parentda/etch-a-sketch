@@ -12,6 +12,8 @@ const resetButton = document.querySelector("#reset-button");
 const drawButton = document.querySelector("#draw-button");
 const eraserButton = document.querySelector("#eraser-button");
 const randomButton = document.querySelector("#random-button");
+const tintButton = document.querySelector("#tint-button");
+const shadeButton = document.querySelector("#shade-button");
 
 // -----------------------------------------------------------
 // Set default color picker and drawing behaviour
@@ -44,6 +46,14 @@ eraserButton.addEventListener("click", () => {
 
 randomButton.addEventListener("click", () => {
   drawMethod = randomDraw;
+});
+
+tintButton.addEventListener("click", () => {
+  drawMethod = tintDraw;
+});
+
+shadeButton.addEventListener("click", () => {
+  drawMethod = shadeDraw;
 });
 
 // -----------------------------------------------------------
@@ -83,6 +93,9 @@ function randomDraw(event) {
   event.target.style.backgroundColor = `rgb(${randomRGBValue()},${randomRGBValue()},${randomRGBValue()})`;
 }
 
+function tintDraw(event) {}
+
+function shadeDraw(event) {}
 // -----------------------------------------------------------
 // Sketch area initialization and resizing
 
