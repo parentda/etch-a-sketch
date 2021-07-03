@@ -3,6 +3,25 @@ const root = document.documentElement;
 const sketchContainer = document.querySelector("#sketch-container");
 const gridSizeInput = document.querySelector("#grid-size input");
 const gridSizeDisplay = document.querySelector("#grid-size p");
+const drawColorPicker = document.querySelector("#draw-color-picker");
+const backgroundColorPicker = document.querySelector(
+  "#background-color-picker"
+);
+
+let drawColor = drawColorPicker.value;
+let backgroundColor = backgroundColorPicker.value;
+
+// -----------------------------------------------------------
+// Allow user to manually select draw and background colors
+
+drawColorPicker.addEventListener("input", (e) => {
+  drawColor = e.target.value;
+});
+
+backgroundColorPicker.addEventListener("input", (e) => {
+  backgroundColor = e.target.value;
+  root.style.setProperty("--background-color", backgroundColor);
+});
 
 // -----------------------------------------------------------
 // Enable drawing functionality only on simultaneous click and hover
@@ -22,9 +41,9 @@ document.addEventListener("pointerup", () => {
 
 function changeColor(event) {
   if (event.type === "pointerdown") {
-    event.target.style.backgroundColor = "hsl(98.6,54.4%,40.4%)"; // change this to drawFunction and have the various draw functions return an hsl value
+    event.target.style.backgroundColor = drawColor; // change this to drawFunction and have the various draw functions return an hsl value
   } else if (mouseDown) {
-    event.target.style.backgroundColor = "hsl(98.6,54.4%,40.4%)";
+    event.target.style.backgroundColor = drawColor;
   }
 }
 
@@ -80,7 +99,7 @@ function drawGrid() {
       currentTotalCells += 1;
     }
   }
-  reset();
+  resetStyling();
 }
 
 // -----------------------------------------------------------
@@ -106,11 +125,11 @@ gridToggleButton.addEventListener("click", toggleGridLines);
 
 const resetButton = document.querySelector("#reset-button");
 
-function reset() {
+function resetStyling() {
   const gridItems = document.querySelectorAll(".grid-box");
   gridItems.forEach((cell) => {
     cell.removeAttribute("style");
   });
 }
 
-resetButton.addEventListener("click", reset);
+resetButton.addEventListener("click", resetStyling);
