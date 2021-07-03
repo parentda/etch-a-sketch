@@ -39,7 +39,7 @@ gridSizeInput.addEventListener("input", () => {
   gridSizeDisplay.textContent = gridSizeInput.value;
 });
 
-gridSizeInput.addEventListener("change", drawGrid);
+gridSizeInput.addEventListener("input", drawGrid);
 
 function drawGrid() {
   const gridSize = gridSizeInput.value;
@@ -57,6 +57,32 @@ function drawGrid() {
     sketchContainer.appendChild(gridBox);
   }
 }
+
+// let currentTotalCells = 0;
+
+// function drawGrid2() {
+//   const gridSize = gridSizeInput.value;
+//   const targetGridDimensions = gridSizeInput.value;
+//   root.style.setProperty("--grid-size", gridSize);
+
+//   if (currentTotalCells > targetGridDimensions ** 2) {
+//     while (currentTotalCells > targetGridDimensions ** 2) {
+//       sketchContainer.removeChild(sketchContainer.lastChild);
+//       currentTotalCells -= 1;
+//     }
+//   } else if (currentTotalCells < targetGridDimensions ** 2) {
+//     while (currentTotalCells < targetGridDimensions ** 2) {
+//       const gridBox = document.createElement("div");
+//       gridBox.classList.add("grid-box", "grid-lines");
+//       gridBox.addEventListener("pointerdown", changeColor);
+//       gridBox.addEventListener("mouseover", changeColor);
+//       sketchContainer.appendChild(gridBox);
+//       currentTotalCells += 1;
+//     }
+//   } else {
+//     reset();
+//   }
+// }
 
 // -----------------------------------------------------------
 // Allow user to toggle the grid line visibility
@@ -80,4 +106,12 @@ gridToggleButton.addEventListener("click", toggleGridLines);
 // Reset the sketch container
 
 const resetButton = document.querySelector("#reset-button");
-resetButton.addEventListener("click", drawGrid);
+
+function reset() {
+  const gridItems = document.querySelectorAll(".grid-box");
+  gridItems.forEach((cell) => {
+    cell.removeAttribute("style");
+  });
+}
+
+resetButton.addEventListener("click", reset);

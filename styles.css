@@ -1,5 +1,5 @@
 :root {
-  --background-color: rgb(170, 64, 64) !important;
+  --background-color: rgb(170, 64, 64);
   --line-color: rgb(170, 170, 170);
   --grid-size: 50;
   --border-thin: 1px solid var(--line-color);
