@@ -1,6 +1,6 @@
 :root {
-  /* --background-color: rgb(255, 255, 255); */
-  --background-color: hsl(360, 100%, 100%);
+  --background-color: rgb(255, 255, 255);
+  /* --background-color: hsl(360, 100%, 100%); */
   --line-color: rgb(170, 170, 170);
   --grid-size: 50;
   --border-thin: 1px solid var(--line-color);
