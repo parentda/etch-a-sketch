@@ -27,13 +27,11 @@ let drawMethod = basicDraw;
 
 drawColorPicker.addEventListener("input", (e) => {
   penColor = e.target.value;
-  console.log(penColor);
 });
 
 backgroundColorPicker.addEventListener("input", (e) => {
   backgroundColor = e.target.value;
   root.style.setProperty("--background-color", backgroundColor);
-  console.log(backgroundColor);
 });
 
 drawButton.addEventListener("click", () => {
@@ -93,7 +91,11 @@ function randomDraw(event) {
   event.target.style.backgroundColor = `rgb(${randomRGBValue()},${randomRGBValue()},${randomRGBValue()})`;
 }
 
-function tintDraw(event) {}
+function tintDraw(event) {
+  console.log(event.target.style.backgroundColor);
+  console.log(window.getComputedStyle(event.target).backgroundColor);
+  console.log(backgroundColor);
+}
 
 function shadeDraw(event) {}
 // -----------------------------------------------------------
