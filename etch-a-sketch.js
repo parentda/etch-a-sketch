@@ -117,11 +117,15 @@ function eraseDraw(event) {
   event.target.removeAttribute("style");
 }
 
+function randomValue(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 function randomDraw(event) {
-  function randomRGBValue() {
-    return Math.floor(Math.random() * 255);
-  }
-  event.target.style.backgroundColor = `rgb(${randomRGBValue()},${randomRGBValue()},${randomRGBValue()})`;
+  event.target.style.backgroundColor = `hsl(${randomValue(
+    0,
+    360
+  )}, ${randomValue(80, 100)}%, ${randomValue(30, 70)}%)`;
 }
 
 function tintDraw(event) {
