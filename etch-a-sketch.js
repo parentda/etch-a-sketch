@@ -25,6 +25,9 @@ const bufferVal = 0.2;
 let penColor = drawColorPicker.value;
 let backgroundColor = backgroundColorPicker.value;
 let backgroundColorHSL = hexToHSL(backgroundColor);
+let parsedBackgroundHSL = parseHSL(backgroundColorHSL);
+
+let currentTotalCells = 0;
 
 let drawMethod = basicDraw;
 
@@ -38,7 +41,7 @@ drawColorPicker.addEventListener("input", (e) => {
 backgroundColorPicker.addEventListener("input", (e) => {
   backgroundColor = e.target.value;
   backgroundColorHSL = hexToHSL(e.target.value);
-  const parsedBackgroundHSL = parseHSL(backgroundColorHSL);
+  parsedBackgroundHSL = parseHSL(backgroundColorHSL);
 
   root.style.setProperty("--background-color", backgroundColor);
 
@@ -62,9 +65,11 @@ backgroundColorPicker.addEventListener("input", (e) => {
   });
 });
 
-backgroundColorPicker.addEventListener("change", (e) => {
-  backgroundColorHSL = hexToHSL(e.target.value);
-});
+// backgroundColorPicker.addEventListener("change", (e) => {
+//   backgroundColorHSL = hexToHSL(e.target.value);
+
+//   // keep better track of the tint-shade-counter - 0 is nothing, less is shaded. more is tinted
+// });
 
 drawButton.addEventListener("click", () => {
   drawMethod = basicDraw;
@@ -137,6 +142,13 @@ function tintDraw(event) {
 
   if (event.target.getAttribute("data-tint-shade-counter")) {
     tintShadeCounter = +event.target.getAttribute("data-tint-shade-counter");
+    if (
+      event.target.getAttribute("data-tint-shade-background") &&
+      parsedBackgroundHSL[2] + tintShadeCounter * hslStep >
+        100 - hslBoundary + bufferVal * 5
+    ) {
+      tintShadeCounter = (100 - hslBoundary - parsedBackgroundHSL[2]) / hslStep;
+    }
   } else {
     event.target.setAttribute("data-tint-shade-counter", "0");
     tintShadeCounter = 0;
@@ -171,6 +183,14 @@ function shadeDraw(event) {
 
   if (event.target.getAttribute("data-tint-shade-counter")) {
     tintShadeCounter = +event.target.getAttribute("data-tint-shade-counter");
+    if (
+      event.target.getAttribute("data-tint-shade-background") &&
+      parsedBackgroundHSL[2] + tintShadeCounter * hslStep <
+        hslBoundary - bufferVal * 5
+    ) {
+      tintShadeCounter = (hslBoundary - parsedBackgroundHSL[2]) / hslStep;
+      console.log(tintShadeCounter);
+    }
   } else {
     event.target.setAttribute("data-tint-shade-counter", "0");
     tintShadeCounter = 0;
@@ -200,9 +220,8 @@ gridSizeDisplay.textContent = gridSizeInput.value;
 
 gridSizeInput.addEventListener("input", () => {
   gridSizeDisplay.textContent = gridSizeInput.value;
+  drawGrid();
 });
-
-gridSizeInput.addEventListener("input", drawGrid);
 
 // function drawGrid() {
 //   const gridSize = gridSizeInput.value;
@@ -221,9 +240,13 @@ gridSizeInput.addEventListener("input", drawGrid);
 //   }
 // }
 
-let currentTotalCells = 0;
-
 function drawGrid() {
+  let stylesReset = false;
+  if (!stylesReset) {
+    resetStyling();
+    stylesReset = true;
+  }
+
   const gridSize = gridSizeInput.value;
   const targetGridDimensions = gridSizeInput.value;
   root.style.setProperty("--grid-size", gridSize);
@@ -243,7 +266,6 @@ function drawGrid() {
       currentTotalCells += 1;
     }
   }
-  resetStyling();
 }
 
 // -----------------------------------------------------------
@@ -271,6 +293,7 @@ function resetStyling() {
   gridItems.forEach((cell) => {
     cell.removeAttribute("style");
     cell.removeAttribute("data-tint-shade-counter");
+    cell.removeAttribute("data-tint-shade-background");
   });
 }
 
