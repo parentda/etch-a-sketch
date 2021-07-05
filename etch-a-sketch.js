@@ -37,7 +37,29 @@ drawColorPicker.addEventListener("input", (e) => {
 
 backgroundColorPicker.addEventListener("input", (e) => {
   backgroundColor = e.target.value;
+  backgroundColorHSL = hexToHSL(e.target.value);
+  const parsedBackgroundHSL = parseHSL(backgroundColorHSL);
+
   root.style.setProperty("--background-color", backgroundColor);
+
+  const shadedGrids = document.querySelectorAll(
+    "[data-tint-shade-counter][data-tint-shade-background]"
+  );
+  shadedGrids.forEach((cell) => {
+    let tempL = parsedBackgroundHSL[2];
+
+    const tintShadeCounter = +cell.getAttribute("data-tint-shade-counter");
+
+    if (tempL + tintShadeCounter * hslStep >= 100 - hslBoundary) {
+      tempL = 100 - hslBoundary;
+    } else if (tempL[2] + tintShadeCounter * hslStep <= hslBoundary) {
+      tempL = hslBoundary;
+    } else {
+      tempL += tintShadeCounter * hslStep;
+    }
+
+    cell.style.backgroundColor = `hsl(${parsedBackgroundHSL[0]}, ${parsedBackgroundHSL[1]}%, ${tempL}%)`;
+  });
 });
 
 backgroundColorPicker.addEventListener("change", (e) => {
@@ -82,6 +104,7 @@ document.addEventListener("pointerup", () => {
 
 function changeColor(event) {
   if (event.type === "pointerdown" || mouseDown) {
+    // event.target.removeAttribute("data-tint-shade-background");
     drawMethod(event);
   }
 }
@@ -102,16 +125,20 @@ function randomDraw(event) {
 }
 
 function tintDraw(event) {
+  if (!event.target.style.backgroundColor) {
+    event.target.setAttribute("data-tint-shade-background", "true");
+  }
+
   let tempHSL = parseHSL(
     RGBToHSL(window.getComputedStyle(event.target).backgroundColor)
   );
 
   let tintShadeCounter;
 
-  if (event.target.getAttribute("data-tint-shade")) {
-    tintShadeCounter = +event.target.getAttribute("data-tint-shade");
+  if (event.target.getAttribute("data-tint-shade-counter")) {
+    tintShadeCounter = +event.target.getAttribute("data-tint-shade-counter");
   } else {
-    event.target.setAttribute("data-tint-shade", "0");
+    event.target.setAttribute("data-tint-shade-counter", "0");
     tintShadeCounter = 0;
   }
 
@@ -126,22 +153,26 @@ function tintDraw(event) {
       tintShadeCounter += 1;
     }
 
-    event.target.setAttribute("data-tint-shade", `${tintShadeCounter}`);
+    event.target.setAttribute("data-tint-shade-counter", `${tintShadeCounter}`);
     event.target.style.backgroundColor = `hsl(${tempHSL[0]}, ${tempHSL[1]}%, ${tempHSL[2]}%)`;
   }
 }
 
 function shadeDraw(event) {
+  if (!event.target.style.backgroundColor) {
+    event.target.setAttribute("data-tint-shade-background", "true");
+  }
+
   let tempHSL = parseHSL(
     RGBToHSL(window.getComputedStyle(event.target).backgroundColor)
   );
 
   let tintShadeCounter;
 
-  if (event.target.getAttribute("data-tint-shade")) {
-    tintShadeCounter = +event.target.getAttribute("data-tint-shade");
+  if (event.target.getAttribute("data-tint-shade-counter")) {
+    tintShadeCounter = +event.target.getAttribute("data-tint-shade-counter");
   } else {
-    event.target.setAttribute("data-tint-shade", "0");
+    event.target.setAttribute("data-tint-shade-counter", "0");
     tintShadeCounter = 0;
   }
 
@@ -155,7 +186,7 @@ function shadeDraw(event) {
       tempHSL[2] -= hslStep;
       tintShadeCounter -= 1;
     }
-    event.target.setAttribute("data-tint-shade", `${tintShadeCounter}`);
+    event.target.setAttribute("data-tint-shade-counter", `${tintShadeCounter}`);
     event.target.style.backgroundColor = `hsl(${tempHSL[0]}, ${tempHSL[1]}%, ${tempHSL[2]}%)`;
   }
 }
@@ -239,7 +270,7 @@ function resetStyling() {
   const gridItems = document.querySelectorAll(".grid-box");
   gridItems.forEach((cell) => {
     cell.removeAttribute("style");
-    cell.removeAttribute("data-tint-shade");
+    cell.removeAttribute("data-tint-shade-counter");
   });
 }
 
