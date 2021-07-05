@@ -223,29 +223,8 @@ gridSizeInput.addEventListener("input", () => {
   drawGrid();
 });
 
-// function drawGrid() {
-//   const gridSize = gridSizeInput.value;
-//   root.style.setProperty("--grid-size", gridSize);
-
-//   while (sketchContainer.firstChild) {
-//     sketchContainer.removeChild(sketchContainer.firstChild);
-//   }
-
-//   for (let i = 0; i < gridSize ** 2; i += 1) {
-//     const gridBox = document.createElement("div");
-//     gridBox.classList.add("grid-box", "grid-lines");
-//     gridBox.addEventListener("pointerdown", changeColor);
-//     gridBox.addEventListener("mouseover", changeColor);
-//     sketchContainer.appendChild(gridBox);
-//   }
-// }
-
 function drawGrid() {
-  let stylesReset = false;
-  if (!stylesReset) {
-    resetStyling();
-    stylesReset = true;
-  }
+  resetStyling();
 
   const gridSize = gridSizeInput.value;
   const targetGridDimensions = gridSizeInput.value;
