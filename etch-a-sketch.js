@@ -102,21 +102,19 @@ document.addEventListener("pointerup", () => {
 
 function changeColor(event) {
   if (event.type === "pointerdown" || mouseDown) {
-    // event.target.removeAttribute("data-tint-shade-background");
+    if (drawMethod !== tintDraw && drawMethod !== shadeDraw) {
+      resetShading(event.target);
+    }
     drawMethod(event);
   }
 }
 
 function basicDraw(event) {
   event.target.style.backgroundColor = penColor;
-  event.target.removeAttribute("data-tint-shade-counter");
-  event.target.removeAttribute("data-tint-shade-background");
 }
 
 function eraseDraw(event) {
   event.target.removeAttribute("style");
-  event.target.removeAttribute("data-tint-shade-counter");
-  event.target.removeAttribute("data-tint-shade-background");
 }
 
 function randomDraw(event) {
@@ -124,8 +122,6 @@ function randomDraw(event) {
     return Math.floor(Math.random() * 255);
   }
   event.target.style.backgroundColor = `rgb(${randomRGBValue()},${randomRGBValue()},${randomRGBValue()})`;
-  event.target.removeAttribute("data-tint-shade-counter");
-  event.target.removeAttribute("data-tint-shade-background");
 }
 
 function tintDraw(event) {
@@ -288,12 +284,16 @@ gridToggleButton.addEventListener("click", toggleGridLines);
 // -----------------------------------------------------------
 // Reset the sketch container
 
+function resetShading(cell) {
+  cell.removeAttribute("data-tint-shade-counter");
+  cell.removeAttribute("data-tint-shade-background");
+}
+
 function resetStyling() {
   const gridItems = document.querySelectorAll(".grid-box");
   gridItems.forEach((cell) => {
     cell.removeAttribute("style");
-    cell.removeAttribute("data-tint-shade-counter");
-    cell.removeAttribute("data-tint-shade-background");
+    resetShading(cell);
   });
 }
 
