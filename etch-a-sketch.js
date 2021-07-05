@@ -15,10 +15,16 @@ const randomButton = document.querySelector("#random-button");
 const tintButton = document.querySelector("#tint-button");
 const shadeButton = document.querySelector("#shade-button");
 
+const hslStep = 4;
+const hslBoundary = 3;
+const hslMaxSteps = Math.round((100 - hslBoundary * 2) / hslStep);
+const bufferVal = 0.2;
+
 // -----------------------------------------------------------
 // Set default color picker and drawing behaviour
 let penColor = drawColorPicker.value;
 let backgroundColor = backgroundColorPicker.value;
+let backgroundColorHSL = hexToHSL(backgroundColor);
 
 let drawMethod = basicDraw;
 
@@ -32,6 +38,10 @@ drawColorPicker.addEventListener("input", (e) => {
 backgroundColorPicker.addEventListener("input", (e) => {
   backgroundColor = e.target.value;
   root.style.setProperty("--background-color", backgroundColor);
+});
+
+backgroundColorPicker.addEventListener("change", (e) => {
+  backgroundColorHSL = hexToHSL(e.target.value);
 });
 
 drawButton.addEventListener("click", () => {
@@ -92,12 +102,64 @@ function randomDraw(event) {
 }
 
 function tintDraw(event) {
-  console.log(event.target.style.backgroundColor);
-  console.log(window.getComputedStyle(event.target).backgroundColor);
-  console.log(backgroundColor);
+  let tempHSL = parseHSL(
+    RGBToHSL(window.getComputedStyle(event.target).backgroundColor)
+  );
+
+  let tintShadeCounter;
+
+  if (event.target.getAttribute("data-tint-shade")) {
+    tintShadeCounter = +event.target.getAttribute("data-tint-shade");
+  } else {
+    event.target.setAttribute("data-tint-shade", "0");
+    tintShadeCounter = 0;
+  }
+
+  if (tempHSL[2] >= 100 - hslBoundary - bufferVal) {
+    // do nothing
+  } else {
+    if (tempHSL[2] > 100 - (hslStep + hslBoundary)) {
+      tempHSL[2] = 100 - hslBoundary;
+      tintShadeCounter += 1;
+    } else {
+      tempHSL[2] += hslStep;
+      tintShadeCounter += 1;
+    }
+
+    event.target.setAttribute("data-tint-shade", `${tintShadeCounter}`);
+    event.target.style.backgroundColor = `hsl(${tempHSL[0]}, ${tempHSL[1]}%, ${tempHSL[2]}%)`;
+  }
 }
 
-function shadeDraw(event) {}
+function shadeDraw(event) {
+  let tempHSL = parseHSL(
+    RGBToHSL(window.getComputedStyle(event.target).backgroundColor)
+  );
+
+  let tintShadeCounter;
+
+  if (event.target.getAttribute("data-tint-shade")) {
+    tintShadeCounter = +event.target.getAttribute("data-tint-shade");
+  } else {
+    event.target.setAttribute("data-tint-shade", "0");
+    tintShadeCounter = 0;
+  }
+
+  if (tempHSL[2] <= hslBoundary + bufferVal) {
+    // do nothing
+  } else {
+    if (tempHSL[2] < hslStep + hslBoundary) {
+      tempHSL[2] = hslBoundary;
+      tintShadeCounter -= 1;
+    } else {
+      tempHSL[2] -= hslStep;
+      tintShadeCounter -= 1;
+    }
+    event.target.setAttribute("data-tint-shade", `${tintShadeCounter}`);
+    event.target.style.backgroundColor = `hsl(${tempHSL[0]}, ${tempHSL[1]}%, ${tempHSL[2]}%)`;
+  }
+}
+
 // -----------------------------------------------------------
 // Sketch area initialization and resizing
 
@@ -177,6 +239,7 @@ function resetStyling() {
   const gridItems = document.querySelectorAll(".grid-box");
   gridItems.forEach((cell) => {
     cell.removeAttribute("style");
+    cell.removeAttribute("data-tint-shade");
   });
 }
 
