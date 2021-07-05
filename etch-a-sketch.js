@@ -17,7 +17,6 @@ const shadeButton = document.querySelector("#shade-button");
 
 const hslStep = 4;
 const hslBoundary = 3;
-const hslMaxSteps = Math.round((100 - hslBoundary * 2) / hslStep);
 const bufferVal = 0.2;
 
 // -----------------------------------------------------------
@@ -53,9 +52,9 @@ backgroundColorPicker.addEventListener("input", (e) => {
 
     const tintShadeCounter = +cell.getAttribute("data-tint-shade-counter");
 
-    if (tempL + tintShadeCounter * hslStep >= 100 - hslBoundary) {
+    if (tempL + tintShadeCounter * hslStep >= 100 - hslBoundary - bufferVal) {
       tempL = 100 - hslBoundary;
-    } else if (tempL[2] + tintShadeCounter * hslStep <= hslBoundary) {
+    } else if (tempL + tintShadeCounter * hslStep <= hslBoundary + bufferVal) {
       tempL = hslBoundary;
     } else {
       tempL += tintShadeCounter * hslStep;
@@ -142,12 +141,13 @@ function tintDraw(event) {
 
   if (event.target.getAttribute("data-tint-shade-counter")) {
     tintShadeCounter = +event.target.getAttribute("data-tint-shade-counter");
+
     if (
       event.target.getAttribute("data-tint-shade-background") &&
-      parsedBackgroundHSL[2] + tintShadeCounter * hslStep >
-        100 - hslBoundary + bufferVal * 5
+      parsedBackgroundHSL[2] + tintShadeCounter * hslStep <
+        hslBoundary - bufferVal * 5
     ) {
-      tintShadeCounter = (100 - hslBoundary - parsedBackgroundHSL[2]) / hslStep;
+      tintShadeCounter = (hslBoundary - parsedBackgroundHSL[2]) / hslStep;
     }
   } else {
     event.target.setAttribute("data-tint-shade-counter", "0");
@@ -183,13 +183,13 @@ function shadeDraw(event) {
 
   if (event.target.getAttribute("data-tint-shade-counter")) {
     tintShadeCounter = +event.target.getAttribute("data-tint-shade-counter");
+
     if (
       event.target.getAttribute("data-tint-shade-background") &&
-      parsedBackgroundHSL[2] + tintShadeCounter * hslStep <
-        hslBoundary - bufferVal * 5
+      parsedBackgroundHSL[2] + tintShadeCounter * hslStep >
+        100 - hslBoundary + bufferVal * 5
     ) {
-      tintShadeCounter = (hslBoundary - parsedBackgroundHSL[2]) / hslStep;
-      console.log(tintShadeCounter);
+      tintShadeCounter = (100 - hslBoundary - parsedBackgroundHSL[2]) / hslStep;
     }
   } else {
     event.target.setAttribute("data-tint-shade-counter", "0");
