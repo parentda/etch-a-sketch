@@ -64,12 +64,6 @@ backgroundColorPicker.addEventListener("input", (e) => {
   });
 });
 
-// backgroundColorPicker.addEventListener("change", (e) => {
-//   backgroundColorHSL = hexToHSL(e.target.value);
-
-//   // keep better track of the tint-shade-counter - 0 is nothing, less is shaded. more is tinted
-// });
-
 drawButton.addEventListener("click", () => {
   drawMethod = basicDraw;
 });
@@ -115,10 +109,14 @@ function changeColor(event) {
 
 function basicDraw(event) {
   event.target.style.backgroundColor = penColor;
+  event.target.removeAttribute("data-tint-shade-counter");
+  event.target.removeAttribute("data-tint-shade-background");
 }
 
 function eraseDraw(event) {
   event.target.removeAttribute("style");
+  event.target.removeAttribute("data-tint-shade-counter");
+  event.target.removeAttribute("data-tint-shade-background");
 }
 
 function randomDraw(event) {
@@ -126,6 +124,8 @@ function randomDraw(event) {
     return Math.floor(Math.random() * 255);
   }
   event.target.style.backgroundColor = `rgb(${randomRGBValue()},${randomRGBValue()},${randomRGBValue()})`;
+  event.target.removeAttribute("data-tint-shade-counter");
+  event.target.removeAttribute("data-tint-shade-background");
 }
 
 function tintDraw(event) {
