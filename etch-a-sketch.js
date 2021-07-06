@@ -147,7 +147,6 @@ function recursiveFill(cell, targetBackgroundColor) {
   cell.style.backgroundColor = penColor;
   const row = +cell.getAttribute("data-row");
   const col = +cell.getAttribute("data-col");
-  let baseCase = true;
 
   const adjacentCells = [];
 
@@ -159,21 +158,15 @@ function recursiveFill(cell, targetBackgroundColor) {
   );
 
   const adjacentCellsFiltered = adjacentCells.filter(
-    (element) => element !== null
+    (unfilteredCell) =>
+      unfilteredCell !== null &&
+      unfilteredCell.style.backgroundColor === targetBackgroundColor
   );
 
-  adjacentCellsFiltered.forEach((filteredCell) => {
-    if (filteredCell.style.backgroundColor === targetBackgroundColor) {
-      baseCase = false;
-    }
-  });
-
-  if (baseCase) return;
+  if (!adjacentCellsFiltered.length) return;
 
   adjacentCellsFiltered.forEach((filteredCell) => {
-    if (filteredCell.style.backgroundColor === targetBackgroundColor) {
-      recursiveFill(filteredCell, targetBackgroundColor);
-    }
+    recursiveFill(filteredCell, targetBackgroundColor);
   });
 
   return;
