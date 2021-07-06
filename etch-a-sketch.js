@@ -106,52 +106,59 @@ function changeColor(event) {
     if (drawMethod !== tintDraw && drawMethod !== shadeDraw) {
       resetShading(event.target);
     }
-    drawMethod(event);
+    drawMethod(event.target);
   }
 }
 
-function basicDraw(event) {
-  event.target.style.backgroundColor = penColor;
+function basicDraw(cell) {
+  cell.style.backgroundColor = penColor;
 }
 
-function eraseDraw(event) {
-  event.target.removeAttribute("style");
+function eraseDraw(cell) {
+  cell.removeAttribute("style");
 }
 
 function randomValue(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function randomDraw(event) {
-  event.target.style.backgroundColor = `hsl(${randomValue(
-    0,
-    360
-  )}, ${randomValue(80, 100)}%, ${randomValue(30, 70)}%)`;
+function randomDraw(cell) {
+  cell.style.backgroundColor = `hsl(${randomValue(0, 360)}, ${randomValue(
+    80,
+    100
+  )}%, ${randomValue(30, 70)}%)`;
 }
 
-function tintDraw(event) {
-  if (!event.target.style.backgroundColor) {
-    event.target.setAttribute("data-tint-shade-background", "true");
+function fillDraw(cell) {
+  const targetBackgroundColor = cell.style.backgroundColor;
+  recursiveFill(cell, targetBackgroundColor);
+}
+
+function recursiveFill(cell, targetBackgroundColor) {}
+
+function tintDraw(cell) {
+  if (!cell.style.backgroundColor) {
+    cell.setAttribute("data-tint-shade-background", "true");
   }
 
   let tempHSL = parseHSL(
-    RGBToHSL(window.getComputedStyle(event.target).backgroundColor)
+    RGBToHSL(window.getComputedStyle(cell).backgroundColor)
   );
 
   let tintShadeCounter;
 
-  if (event.target.getAttribute("data-tint-shade-counter")) {
-    tintShadeCounter = +event.target.getAttribute("data-tint-shade-counter");
+  if (cell.getAttribute("data-tint-shade-counter")) {
+    tintShadeCounter = +cell.getAttribute("data-tint-shade-counter");
 
     if (
-      event.target.getAttribute("data-tint-shade-background") &&
+      cell.getAttribute("data-tint-shade-background") &&
       parsedBackgroundHSL[2] + tintShadeCounter * hslStep <
         hslBoundary - bufferVal * 5
     ) {
       tintShadeCounter = (hslBoundary - parsedBackgroundHSL[2]) / hslStep;
     }
   } else {
-    event.target.setAttribute("data-tint-shade-counter", "0");
+    cell.setAttribute("data-tint-shade-counter", "0");
     tintShadeCounter = 0;
   }
 
@@ -166,34 +173,34 @@ function tintDraw(event) {
       tintShadeCounter += 1;
     }
 
-    event.target.setAttribute("data-tint-shade-counter", `${tintShadeCounter}`);
-    event.target.style.backgroundColor = `hsl(${tempHSL[0]}, ${tempHSL[1]}%, ${tempHSL[2]}%)`;
+    cell.setAttribute("data-tint-shade-counter", `${tintShadeCounter}`);
+    cell.style.backgroundColor = `hsl(${tempHSL[0]}, ${tempHSL[1]}%, ${tempHSL[2]}%)`;
   }
 }
 
-function shadeDraw(event) {
-  if (!event.target.style.backgroundColor) {
-    event.target.setAttribute("data-tint-shade-background", "true");
+function shadeDraw(cell) {
+  if (!cell.style.backgroundColor) {
+    cell.setAttribute("data-tint-shade-background", "true");
   }
 
   let tempHSL = parseHSL(
-    RGBToHSL(window.getComputedStyle(event.target).backgroundColor)
+    RGBToHSL(window.getComputedStyle(cell).backgroundColor)
   );
 
   let tintShadeCounter;
 
-  if (event.target.getAttribute("data-tint-shade-counter")) {
-    tintShadeCounter = +event.target.getAttribute("data-tint-shade-counter");
+  if (cell.getAttribute("data-tint-shade-counter")) {
+    tintShadeCounter = +cell.getAttribute("data-tint-shade-counter");
 
     if (
-      event.target.getAttribute("data-tint-shade-background") &&
+      cell.getAttribute("data-tint-shade-background") &&
       parsedBackgroundHSL[2] + tintShadeCounter * hslStep >
         100 - hslBoundary + bufferVal * 5
     ) {
       tintShadeCounter = (100 - hslBoundary - parsedBackgroundHSL[2]) / hslStep;
     }
   } else {
-    event.target.setAttribute("data-tint-shade-counter", "0");
+    cell.setAttribute("data-tint-shade-counter", "0");
     tintShadeCounter = 0;
   }
 
@@ -207,8 +214,8 @@ function shadeDraw(event) {
       tempHSL[2] -= hslStep;
       tintShadeCounter -= 1;
     }
-    event.target.setAttribute("data-tint-shade-counter", `${tintShadeCounter}`);
-    event.target.style.backgroundColor = `hsl(${tempHSL[0]}, ${tempHSL[1]}%, ${tempHSL[2]}%)`;
+    cell.setAttribute("data-tint-shade-counter", `${tintShadeCounter}`);
+    cell.style.backgroundColor = `hsl(${tempHSL[0]}, ${tempHSL[1]}%, ${tempHSL[2]}%)`;
   }
 }
 
