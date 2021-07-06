@@ -23,6 +23,7 @@ const bufferVal = 0.2;
 // -----------------------------------------------------------
 // Set default color picker and drawing behaviour
 let penColor = drawColorPicker.value;
+let penColorRGB = hexToRGB(penColor);
 let backgroundColor = backgroundColorPicker.value;
 let backgroundColorHSL = hexToHSL(backgroundColor);
 let parsedBackgroundHSL = parseHSL(backgroundColorHSL);
@@ -37,6 +38,7 @@ let drawMethod = basicDraw;
 
 drawColorPicker.addEventListener("input", (e) => {
   penColor = e.target.value;
+  penColorRGB = hexToRGB(penColor);
 });
 
 backgroundColorPicker.addEventListener("input", (e) => {
@@ -136,13 +138,16 @@ function randomDraw(cell) {
 
 function fillDraw(cell) {
   const targetBackgroundColor = cell.style.backgroundColor;
-  recursiveFill(cell, targetBackgroundColor);
+  if (targetBackgroundColor !== penColorRGB) {
+    recursiveFill(cell, targetBackgroundColor);
+  }
 }
 
 function recursiveFill(cell, targetBackgroundColor) {
   cell.style.backgroundColor = penColor;
   const row = +cell.getAttribute("data-row");
-  const col = +cell.getAttribute("data-column");
+  const col = +cell.getAttribute("data-col");
+  let baseCase = true;
 
   const adjacentCells = [];
 
@@ -152,6 +157,26 @@ function recursiveFill(cell, targetBackgroundColor) {
     document.querySelector(`[data-row="${row + 1}"][data-col="${col}"]`),
     document.querySelector(`[data-row="${row}"][data-col="${col - 1}"]`)
   );
+
+  const adjacentCellsFiltered = adjacentCells.filter(
+    (element) => element !== null
+  );
+
+  adjacentCellsFiltered.forEach((filteredCell) => {
+    if (filteredCell.style.backgroundColor === targetBackgroundColor) {
+      baseCase = false;
+    }
+  });
+
+  if (baseCase) return;
+
+  adjacentCellsFiltered.forEach((filteredCell) => {
+    if (filteredCell.style.backgroundColor === targetBackgroundColor) {
+      recursiveFill(filteredCell, targetBackgroundColor);
+    }
+  });
+
+  return;
 
   // if (row - 1 !== 0) {
   //   const upCell = document.querySelector(
