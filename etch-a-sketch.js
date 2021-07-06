@@ -139,7 +139,11 @@ function fillDraw(cell) {
   recursiveFill(cell, targetBackgroundColor);
 }
 
-function recursiveFill(cell, targetBackgroundColor) {}
+function recursiveFill(cell, targetBackgroundColor) {
+  cell.style.backgroundColor = penColor;
+  const row = +cell.getAttribute("data-row");
+  const column = +cell.getAttribute("data-column");
+}
 
 function tintDraw(cell) {
   if (!cell.style.backgroundColor) {
