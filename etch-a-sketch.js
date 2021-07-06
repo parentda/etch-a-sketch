@@ -142,7 +142,48 @@ function fillDraw(cell) {
 function recursiveFill(cell, targetBackgroundColor) {
   cell.style.backgroundColor = penColor;
   const row = +cell.getAttribute("data-row");
-  const column = +cell.getAttribute("data-column");
+  const col = +cell.getAttribute("data-column");
+
+  const adjacentCells = [];
+
+  adjacentCells.push(
+    document.querySelector(`[data-row="${row - 1}"][data-col="${col}"]`),
+    document.querySelector(`[data-row="${row}"][data-col="${col + 1}"]`),
+    document.querySelector(`[data-row="${row + 1}"][data-col="${col}"]`),
+    document.querySelector(`[data-row="${row}"][data-col="${col - 1}"]`)
+  );
+
+  // if (row - 1 !== 0) {
+  //   const upCell = document.querySelector(
+  //     `[data-row="${row - 1}"][data-col="${col}"]`
+  //   );
+  //   adjacentCells.push(upCell);
+  // }
+
+  // if (col + 1 <= gridSize) {
+  //   const rightCell = document.querySelector(
+  //     `[data-row="${row}"][data-col="${col + 1}"]`
+  //   );
+  //   adjacentCells.push(rightCell);
+  // }
+
+  // if (row + 1 <= gridSize) {
+  //   const downCell = document.querySelector(
+  //     `[data-row="${row + 1}"][data-col="${col}"]`
+  //   );
+  //   adjacentCells.push(downCell);
+  // }
+
+  // if (col - 1 !== 0) {
+  //   const leftCell = document.querySelector(
+  //     `[data-row="${row}"][data-col="${col - 1}"]`
+  //   );
+  //   adjacentCells.push(leftCell);
+  // }
+
+  // base case - no adjacent square has the target background color
+  // if () {}
+  // recursive cases - any adjacent square has the target background color
 }
 
 function tintDraw(cell) {
