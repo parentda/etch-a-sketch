@@ -29,9 +29,11 @@ let backgroundColorHSL = hexToHSL(backgroundColor);
 let parsedBackgroundHSL = parseHSL(backgroundColorHSL);
 
 let currentTotalCells = 0;
-let gridSize = gridSizeInput.value;
+let gridSize = +gridSizeInput.value;
 
 let drawMethod = basicDraw;
+
+let matrix2D;
 
 // -----------------------------------------------------------
 // Allow user to manually select draw and background colors
@@ -138,12 +140,14 @@ function randomDraw(cell) {
 
 function fillDraw(cell) {
   const targetBackgroundColor = cell.style.backgroundColor;
-  if (targetBackgroundColor !== penColorRGB) {
-    recursiveFill(cell, targetBackgroundColor);
-  }
+  recursiveFill(cell, targetBackgroundColor);
 }
 
 function recursiveFill(cell, targetBackgroundColor) {
+  if (cell.style.backgroundColor === penColorRGB) {
+    return;
+  }
+
   cell.style.backgroundColor = penColor;
   const row = +cell.getAttribute("data-row");
   const col = +cell.getAttribute("data-col");
@@ -165,11 +169,26 @@ function recursiveFill(cell, targetBackgroundColor) {
 
   if (!adjacentCellsFiltered.length) return;
 
-  adjacentCellsFiltered.forEach((filteredCell) => {
-    recursiveFill(filteredCell, targetBackgroundColor);
-  });
+  for (const filteredCell in adjacentCellsFiltered) {
+    if (
+      adjacentCellsFiltered[filteredCell].style.backgroundColor ===
+      targetBackgroundColor
+    ) {
+      recursiveFill(adjacentCellsFiltered[filteredCell], targetBackgroundColor);
+    }
+  }
+
+  // adjacentCellsFiltered.forEach((filteredCell) => {
+  //   if (filteredCell.style.backgroundColor === targetBackgroundColor) {
+  //     recursiveFill(filteredCell, targetBackgroundColor);
+  //   }
+  // });
 
   return;
+
+  // Create 2D array when resizing and reference that??
+
+  // return;
 
   // if (row - 1 !== 0) {
   //   const upCell = document.querySelector(
@@ -292,6 +311,7 @@ function shadeDraw(cell) {
 
 window.addEventListener("DOMContentLoaded", drawGrid);
 window.addEventListener("DOMContentLoaded", indexGrid);
+window.addEventListener("DOMContentLoaded", create2DArray);
 
 sketchContainer.classList.add("container-border-grid-on");
 gridSizeDisplay.textContent = gridSizeInput.value;
@@ -302,11 +322,12 @@ gridSizeInput.addEventListener("input", () => {
 });
 
 gridSizeInput.addEventListener("change", indexGrid);
+gridSizeInput.addEventListener("change", create2DArray);
 
 function drawGrid() {
   resetStyling();
 
-  gridSize = gridSizeInput.value;
+  gridSize = +gridSizeInput.value;
   root.style.setProperty("--grid-size", gridSize);
 
   if (currentTotalCells > gridSize ** 2) {
@@ -335,6 +356,21 @@ function indexGrid() {
     for (let j = 1; j <= gridSize; j += 1) {
       gridItems[currentIndex].setAttribute("data-row", i);
       gridItems[currentIndex].setAttribute("data-col", j);
+      currentIndex += 1;
+    }
+  }
+}
+
+function create2DArray() {
+  const gridItems = document.querySelectorAll(".grid-box");
+
+  matrix2D = new Array(gridSize).fill().map(() => new Array(gridSize).fill());
+
+  let currentIndex = 0;
+
+  for (let i = 0; i < gridSize; i += 1) {
+    for (let j = 0; j < gridSize; j += 1) {
+      matrix2D[i][j] = gridItems[currentIndex];
       currentIndex += 1;
     }
   }
