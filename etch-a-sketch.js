@@ -27,6 +27,7 @@ let backgroundColorHSL = hexToHSL(backgroundColor);
 let parsedBackgroundHSL = parseHSL(backgroundColorHSL);
 
 let currentTotalCells = 0;
+let gridSize = gridSizeInput.value;
 
 let drawMethod = basicDraw;
 
@@ -215,6 +216,8 @@ function shadeDraw(event) {
 // Sketch area initialization and resizing
 
 window.addEventListener("DOMContentLoaded", drawGrid);
+window.addEventListener("DOMContentLoaded", indexGrid);
+
 sketchContainer.classList.add("container-border-grid-on");
 gridSizeDisplay.textContent = gridSizeInput.value;
 
@@ -223,26 +226,41 @@ gridSizeInput.addEventListener("input", () => {
   drawGrid();
 });
 
+gridSizeInput.addEventListener("change", indexGrid);
+
 function drawGrid() {
   resetStyling();
 
-  const gridSize = gridSizeInput.value;
-  const targetGridDimensions = gridSizeInput.value;
+  gridSize = gridSizeInput.value;
   root.style.setProperty("--grid-size", gridSize);
 
-  if (currentTotalCells > targetGridDimensions ** 2) {
-    while (currentTotalCells > targetGridDimensions ** 2) {
+  if (currentTotalCells > gridSize ** 2) {
+    while (currentTotalCells > gridSize ** 2) {
       sketchContainer.removeChild(sketchContainer.lastChild);
       currentTotalCells -= 1;
     }
-  } else if (currentTotalCells < targetGridDimensions ** 2) {
-    while (currentTotalCells < targetGridDimensions ** 2) {
+  } else if (currentTotalCells < gridSize ** 2) {
+    while (currentTotalCells < gridSize ** 2) {
       const gridBox = document.createElement("div");
       gridBox.classList.add("grid-box", "grid-lines");
       gridBox.addEventListener("pointerdown", changeColor);
       gridBox.addEventListener("mouseover", changeColor);
       sketchContainer.appendChild(gridBox);
       currentTotalCells += 1;
+    }
+  }
+}
+
+function indexGrid() {
+  const gridItems = document.querySelectorAll(".grid-box");
+
+  let currentIndex = 0;
+
+  for (let i = 1; i <= gridSize; i += 1) {
+    for (let j = 1; j <= gridSize; j += 1) {
+      gridItems[currentIndex].setAttribute("data-row", i);
+      gridItems[currentIndex].setAttribute("data-col", j);
+      currentIndex += 1;
     }
   }
 }
