@@ -12,6 +12,7 @@ const resetButton = document.querySelector("#reset-button");
 const drawButton = document.querySelector("#draw-button");
 const eraserButton = document.querySelector("#eraser-button");
 const randomButton = document.querySelector("#random-button");
+const fillButton = document.querySelector("#fill-button");
 const tintButton = document.querySelector("#tint-button");
 const shadeButton = document.querySelector("#shade-button");
 
@@ -75,6 +76,10 @@ eraserButton.addEventListener("click", () => {
 
 randomButton.addEventListener("click", () => {
   drawMethod = randomDraw;
+});
+
+fillButton.addEventListener("click", () => {
+  drawMethod = fillDraw;
 });
 
 tintButton.addEventListener("click", () => {
