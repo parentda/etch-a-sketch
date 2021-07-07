@@ -143,224 +143,54 @@ function fillDraw(cell) {
     return;
   }
   const targetBackgroundColor = cell.style.backgroundColor;
-  // cell.style.backgroundColor = penColorRGB;
-  // recursiveFill2(cell, targetBackgroundColor);
+
   floodFillStack(cell, targetBackgroundColor, penColorRGB);
-}
-
-function recursiveFill(cell, targetBackgroundColor) {
-  if (cell.style.backgroundColor === penColorRGB) {
-    return;
-  }
-
-  cell.style.backgroundColor = penColor;
-  const row = +cell.getAttribute("data-row");
-  const col = +cell.getAttribute("data-col");
-
-  const adjacentCells = [];
-
-  adjacentCells.push(
-    document.querySelector(`[data-row="${row - 1}"][data-col="${col}"]`),
-    document.querySelector(`[data-row="${row}"][data-col="${col + 1}"]`),
-    document.querySelector(`[data-row="${row + 1}"][data-col="${col}"]`),
-    document.querySelector(`[data-row="${row}"][data-col="${col - 1}"]`)
-  );
-
-  const adjacentCellsFiltered = adjacentCells.filter(
-    (unfilteredCell) =>
-      unfilteredCell !== null &&
-      unfilteredCell.style.backgroundColor === targetBackgroundColor
-  );
-
-  if (!adjacentCellsFiltered.length) return;
-
-  for (const filteredCell in adjacentCellsFiltered) {
-    if (
-      adjacentCellsFiltered[filteredCell].style.backgroundColor ===
-      targetBackgroundColor
-    ) {
-      recursiveFill(adjacentCellsFiltered[filteredCell], targetBackgroundColor);
-    }
-  }
-
-  // adjacentCellsFiltered.forEach((filteredCell) => {
-  //   if (filteredCell.style.backgroundColor === targetBackgroundColor) {
-  //     recursiveFill(filteredCell, targetBackgroundColor);
-  //   }
-  // });
-
-  return;
-
-  // Create 2D array when resizing and reference that??
-
-  // return;
-
-  // if (row - 1 !== 0) {
-  //   const upCell = document.querySelector(
-  //     `[data-row="${row - 1}"][data-col="${col}"]`
-  //   );
-  //   adjacentCells.push(upCell);
-  // }
-
-  // if (col + 1 <= gridSize) {
-  //   const rightCell = document.querySelector(
-  //     `[data-row="${row}"][data-col="${col + 1}"]`
-  //   );
-  //   adjacentCells.push(rightCell);
-  // }
-
-  // if (row + 1 <= gridSize) {
-  //   const downCell = document.querySelector(
-  //     `[data-row="${row + 1}"][data-col="${col}"]`
-  //   );
-  //   adjacentCells.push(downCell);
-  // }
-
-  // if (col - 1 !== 0) {
-  //   const leftCell = document.querySelector(
-  //     `[data-row="${row}"][data-col="${col - 1}"]`
-  //   );
-  //   adjacentCells.push(leftCell);
-  // }
-
-  // base case - no adjacent square has the target background color
-  // if () {}
-  // recursive cases - any adjacent square has the target background color
-}
-
-function recursiveFill2(cell, targetBackgroundColor) {
-  // if (cell.style.backgroundColor === penColorRGB) {
-  //   return;
-  // }
-
-  // stackNum++;
-  // console.log(stackNum);
-
-  const row = +cell.getAttribute("data-row");
-  const col = +cell.getAttribute("data-col");
-
-  let baseCase = true;
-
-  let top = false;
-  let right = false;
-  let bottom = false;
-  let left = false;
-
-  if (
-    row - 1 >= 0 &&
-    matrix2D[row - 1][col].style.backgroundColor === targetBackgroundColor
-  ) {
-    top = true;
-    matrix2D[row - 1][col].style.backgroundColor = penColorRGB;
-    baseCase = false;
-  }
-
-  if (
-    col + 1 < gridSize &&
-    matrix2D[row][col + 1].style.backgroundColor === targetBackgroundColor
-  ) {
-    right = true;
-    matrix2D[row][col + 1].style.backgroundColor = penColorRGB;
-    baseCase = false;
-  }
-
-  if (
-    row + 1 < gridSize &&
-    matrix2D[row + 1][col].style.backgroundColor === targetBackgroundColor
-  ) {
-    bottom = true;
-    matrix2D[row + 1][col].style.backgroundColor = penColorRGB;
-    baseCase = false;
-  }
-
-  if (
-    col - 1 >= 0 &&
-    matrix2D[row][col - 1].style.backgroundColor === targetBackgroundColor
-  ) {
-    left = true;
-    matrix2D[row][col - 1].style.backgroundColor = penColorRGB;
-    baseCase = false;
-  }
-
-  if (baseCase) return;
-
-  if (top) {
-    recursiveFill2(matrix2D[row - 1][col], targetBackgroundColor);
-  }
-
-  if (right) {
-    recursiveFill2(matrix2D[row][col + 1], targetBackgroundColor);
-  }
-
-  if (bottom) {
-    recursiveFill2(matrix2D[row + 1][col], targetBackgroundColor);
-  }
-
-  if (left) {
-    recursiveFill2(matrix2D[row][col - 1], targetBackgroundColor);
-  }
-
-  // for (const filteredCell in adjacentCellsFiltered) {
-  //   if (
-  //     adjacentCellsFiltered[filteredCell].style.backgroundColor ===
-  //     targetBackgroundColor
-  //   ) {
-  //     recursiveFill(adjacentCellsFiltered[filteredCell], targetBackgroundColor);
-  //   }
-  // }
-
-  // adjacentCellsFiltered.forEach((filteredCell) => {
-  //   if (filteredCell.style.backgroundColor === targetBackgroundColor) {
-  //     recursiveFill(filteredCell, targetBackgroundColor);
-  //   }
-  // });
-
-  return;
 }
 
 function floodFillStack(targetCell, targetColor, replacementColor) {
   const stack = [];
   stack.push(targetCell);
+  targetCell.style.backgroundColor = replacementColor;
   let row;
   let col;
 
   while (stack.length) {
     const currentNode = stack[stack.length - 1];
     stack.pop();
-    if (currentNode) {
-      row = +currentNode.getAttribute("data-row");
-      col = +currentNode.getAttribute("data-col");
+
+    row = +currentNode.getAttribute("data-row");
+    col = +currentNode.getAttribute("data-col");
+
+    if (
+      row - 1 >= 0 &&
+      matrix2D[row - 1][col].style.backgroundColor === targetColor
+    ) {
+      matrix2D[row - 1][col].style.backgroundColor = replacementColor;
+      stack.push(matrix2D[row - 1][col]);
     }
 
-    if (currentNode.style.backgroundColor === targetColor) {
-      currentNode.style.backgroundColor = replacementColor;
-      if (
-        row - 1 >= 0 &&
-        matrix2D[row - 1][col].style.backgroundColor === targetColor
-      ) {
-        stack.push(matrix2D[row - 1][col]);
-      }
+    if (
+      col + 1 < gridSize &&
+      matrix2D[row][col + 1].style.backgroundColor === targetColor
+    ) {
+      matrix2D[row][col + 1].style.backgroundColor = replacementColor;
+      stack.push(matrix2D[row][col + 1]);
+    }
 
-      if (
-        col + 1 < gridSize &&
-        matrix2D[row][col + 1].style.backgroundColor === targetColor
-      ) {
-        stack.push(matrix2D[row][col + 1]);
-      }
+    if (
+      row + 1 < gridSize &&
+      matrix2D[row + 1][col].style.backgroundColor === targetColor
+    ) {
+      matrix2D[row + 1][col].style.backgroundColor = replacementColor;
+      stack.push(matrix2D[row + 1][col]);
+    }
 
-      if (
-        row + 1 < gridSize &&
-        matrix2D[row + 1][col].style.backgroundColor === targetColor
-      ) {
-        stack.push(matrix2D[row + 1][col]);
-      }
-
-      if (
-        col - 1 >= 0 &&
-        matrix2D[row][col - 1].style.backgroundColor === targetColor
-      ) {
-        stack.push(matrix2D[row][col - 1]);
-      }
+    if (
+      col - 1 >= 0 &&
+      matrix2D[row][col - 1].style.backgroundColor === targetColor
+    ) {
+      matrix2D[row][col - 1].style.backgroundColor = replacementColor;
+      stack.push(matrix2D[row][col - 1]);
     }
   }
 }
