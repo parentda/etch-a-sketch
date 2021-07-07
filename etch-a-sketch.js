@@ -139,8 +139,13 @@ function randomDraw(cell) {
 }
 
 function fillDraw(cell) {
+  if (cell.style.backgroundColor === penColorRGB) {
+    return;
+  }
   const targetBackgroundColor = cell.style.backgroundColor;
-  recursiveFill2(cell, targetBackgroundColor);
+  // cell.style.backgroundColor = penColorRGB;
+  // recursiveFill2(cell, targetBackgroundColor);
+  floodFillStack(cell, targetBackgroundColor, penColorRGB);
 }
 
 function recursiveFill(cell, targetBackgroundColor) {
@@ -224,11 +229,13 @@ function recursiveFill(cell, targetBackgroundColor) {
 }
 
 function recursiveFill2(cell, targetBackgroundColor) {
-  if (cell.style.backgroundColor === penColorRGB) {
-    return;
-  }
+  // if (cell.style.backgroundColor === penColorRGB) {
+  //   return;
+  // }
 
-  cell.style.backgroundColor = penColor;
+  // stackNum++;
+  // console.log(stackNum);
+
   const row = +cell.getAttribute("data-row");
   const col = +cell.getAttribute("data-col");
 
@@ -244,6 +251,7 @@ function recursiveFill2(cell, targetBackgroundColor) {
     matrix2D[row - 1][col].style.backgroundColor === targetBackgroundColor
   ) {
     top = true;
+    matrix2D[row - 1][col].style.backgroundColor = penColorRGB;
     baseCase = false;
   }
 
@@ -252,6 +260,7 @@ function recursiveFill2(cell, targetBackgroundColor) {
     matrix2D[row][col + 1].style.backgroundColor === targetBackgroundColor
   ) {
     right = true;
+    matrix2D[row][col + 1].style.backgroundColor = penColorRGB;
     baseCase = false;
   }
 
@@ -260,6 +269,7 @@ function recursiveFill2(cell, targetBackgroundColor) {
     matrix2D[row + 1][col].style.backgroundColor === targetBackgroundColor
   ) {
     bottom = true;
+    matrix2D[row + 1][col].style.backgroundColor = penColorRGB;
     baseCase = false;
   }
 
@@ -268,36 +278,25 @@ function recursiveFill2(cell, targetBackgroundColor) {
     matrix2D[row][col - 1].style.backgroundColor === targetBackgroundColor
   ) {
     left = true;
+    matrix2D[row][col - 1].style.backgroundColor = penColorRGB;
     baseCase = false;
   }
 
   if (baseCase) return;
 
-  if (
-    top &&
-    matrix2D[row - 1][col].style.backgroundColor === targetBackgroundColor
-  ) {
+  if (top) {
     recursiveFill2(matrix2D[row - 1][col], targetBackgroundColor);
   }
 
-  if (
-    right &&
-    matrix2D[row][col + 1].style.backgroundColor === targetBackgroundColor
-  ) {
+  if (right) {
     recursiveFill2(matrix2D[row][col + 1], targetBackgroundColor);
   }
 
-  if (
-    bottom &&
-    matrix2D[row + 1][col].style.backgroundColor === targetBackgroundColor
-  ) {
+  if (bottom) {
     recursiveFill2(matrix2D[row + 1][col], targetBackgroundColor);
   }
 
-  if (
-    left &&
-    matrix2D[row][col - 1].style.backgroundColor === targetBackgroundColor
-  ) {
+  if (left) {
     recursiveFill2(matrix2D[row][col - 1], targetBackgroundColor);
   }
 
@@ -316,7 +315,54 @@ function recursiveFill2(cell, targetBackgroundColor) {
   //   }
   // });
 
-  // return;
+  return;
+}
+
+function floodFillStack(targetCell, targetColor, replacementColor) {
+  const stack = [];
+  stack.push(targetCell);
+  let row;
+  let col;
+
+  while (stack.length) {
+    const currentNode = stack[stack.length - 1];
+    stack.pop();
+    if (currentNode) {
+      row = +currentNode.getAttribute("data-row");
+      col = +currentNode.getAttribute("data-col");
+    }
+
+    if (currentNode.style.backgroundColor === targetColor) {
+      currentNode.style.backgroundColor = replacementColor;
+      if (
+        row - 1 >= 0 &&
+        matrix2D[row - 1][col].style.backgroundColor === targetColor
+      ) {
+        stack.push(matrix2D[row - 1][col]);
+      }
+
+      if (
+        col + 1 < gridSize &&
+        matrix2D[row][col + 1].style.backgroundColor === targetColor
+      ) {
+        stack.push(matrix2D[row][col + 1]);
+      }
+
+      if (
+        row + 1 < gridSize &&
+        matrix2D[row + 1][col].style.backgroundColor === targetColor
+      ) {
+        stack.push(matrix2D[row + 1][col]);
+      }
+
+      if (
+        col - 1 >= 0 &&
+        matrix2D[row][col - 1].style.backgroundColor === targetColor
+      ) {
+        stack.push(matrix2D[row][col - 1]);
+      }
+    }
+  }
 }
 
 function tintDraw(cell) {
