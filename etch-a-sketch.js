@@ -16,7 +16,7 @@ const fillButton = document.querySelector("#fill-button");
 const tintButton = document.querySelector("#tint-button");
 const shadeButton = document.querySelector("#shade-button");
 
-const hslStep = 4;
+const hslStep = 5;
 const hslBoundary = 3;
 const bufferVal = 0.2;
 
