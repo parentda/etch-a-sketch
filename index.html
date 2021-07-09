@@ -6,85 +6,92 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header>etch a sketch</header>
     <main>
-      <div id="grid-size">
+      <header>etch a sketch</header>
+      <div id="controls-left">
         <input
-          type="range"
-          id="grid-size-input"
-          name="grid-size-input"
-          min="1"
-          max="100"
-          step="1"
-          value="20"
+          type="radio"
+          id="draw-button"
+          name="draw-method"
+          value="basicDraw"
+          checked
         />
-        <label for="grid-size-input">grid size</label>
-        <p></p>
-      </div>
-      <button id="toggle-grid-lines">toggle grid lines</button>
-      <button id="reset-button">reset</button>
-      <input
-        type="radio"
-        id="draw-button"
-        name="draw-method"
-        value="basicDraw"
-        checked
-      />
-      <label for="draw-button">draw</label>
-      <input
-        type="radio"
-        id="erase-button"
-        name="draw-method"
-        value="eraseDraw"
-      />
-      <label for="erase-button">erase</label>
-      <input
-        type="radio"
-        id="random-button"
-        name="draw-method"
-        value="randomDraw"
-      />
-      <label for="random-button">random</label>
-      <input
-        type="radio"
-        id="fill-button"
-        name="draw-method"
-        value="fillDraw"
-      />
-      <label for="fill-button">fill</label>
-      <input
-        type="radio"
-        id="tint-button"
-        name="draw-method"
-        value="tintDraw"
-      />
-      <label for="tint-button">tint</label>
-      <input
-        type="radio"
-        id="shade-button"
-        name="draw-method"
-        value="shadeDraw"
-      />
-      <label for="shade-button">shade</label>
-      <div id="draw-color">
+        <label for="draw-button">draw</label>
         <input
-          type="color"
-          name="draw-color-picker"
-          id="draw-color-picker"
-          value="#000000"
+          type="radio"
+          id="erase-button"
+          name="draw-method"
+          value="eraseDraw"
         />
-        <label for="draw-color-picker">draw color</label>
-      </div>
-      <div id="background-color">
+        <label for="erase-button">erase</label>
         <input
-          type="color"
-          name="background-color-picker"
-          id="background-color-picker"
-          value="#ffffff"
+          type="radio"
+          id="random-button"
+          name="draw-method"
+          value="randomDraw"
         />
-        <label for="background-color-picker">background color</label>
+        <label for="random-button">random</label>
+        <input
+          type="radio"
+          id="fill-button"
+          name="draw-method"
+          value="fillDraw"
+        />
+        <label for="fill-button">fill</label>
+        <input
+          type="radio"
+          id="tint-button"
+          name="draw-method"
+          value="tintDraw"
+        />
+        <label for="tint-button">tint</label>
+        <input
+          type="radio"
+          id="shade-button"
+          name="draw-method"
+          value="shadeDraw"
+        />
+        <label for="shade-button">shade</label>
       </div>
       <div id="sketch-container"></div>
+      <div id="controls-right">
+        <div id="draw-color">
+          <input
+            type="color"
+            name="draw-color-picker"
+            id="draw-color-picker"
+            value="#000000"
+          />
+          <label for="draw-color-picker">draw color</label>
+        </div>
+        <div id="background-color">
+          <input
+            type="color"
+            name="background-color-picker"
+            id="background-color-picker"
+            value="#ffffff"
+          />
+          <label for="background-color-picker">background color</label>
+        </div>
+
+        <button id="toggle-grid-lines">toggle grid lines</button>
+        <button id="reset-button">reset</button>
+      </div>
+      <div id="controls-bottom">
+        <div id="grid-size">
+          <input
+            type="range"
+            id="grid-size-input"
+            name="grid-size-input"
+            min="1"
+            max="100"
+            step="1"
+            value="20"
+          />
+          <label for="grid-size-input">grid size</label>
+          <p></p>
+        </div>
+      </div>
     </main>
     <script src="color-conversion.js"></script>
     <script src="etch-a-sketch.js"></script>

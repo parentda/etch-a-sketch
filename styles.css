@@ -5,13 +5,44 @@
   --border-thin: 1px solid var(--line-color);
   --border-thick: 4px solid var(--line-color);
   --grid-container-dimensions: 600px;
+  --color1: ;
+  --color2: ;
+  --color3: ;
+  height: 100%;
+  margin: 0px;
   font-family: Menlo;
+  font-size: 16px;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(3, auto);
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  font-weight: bold;
+  grid-row: 1 / 1;
+  grid-column: 2 / 3;
 }
 
 #sketch-container {
   border-top: var(--border-thin);
   border-left: var(--border-thin);
-  margin: 10px;
+  /* margin: 10px; */
+  grid-row: 2 / 2;
+  grid-column: 2 / 3;
   /* background-color: var(--line-color); */
   /* padding: 1px; */
   height: var(--grid-container-dimensions);
@@ -20,6 +51,21 @@
   grid-template-rows: repeat(var(--grid-size), auto);
   grid-template-columns: repeat(var(--grid-size), auto);
   justify-content: stretch;
+}
+
+#controls-left {
+  grid-row: 2 / 2;
+  grid-column: 1 / 2;
+}
+
+#controls-right {
+  grid-row: 2 / 2;
+  grid-column: 3 / 4;
+}
+
+#controls-bottom {
+  grid-row: 3 / 3;
+  grid-column: 2 / 3;
 }
 
 .grid-box {
