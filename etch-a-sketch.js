@@ -99,19 +99,23 @@ shadeButton.addEventListener("click", () => {
 
 let mouseDown = false;
 
-document.addEventListener("pointerdown", () => {
-  mouseDown = true;
+document.addEventListener("pointerdown", (event) => {
+  if (event.button === 0) {
+    mouseDown = true;
+  }
 });
 
-document.addEventListener("pointerup", () => {
-  mouseDown = false;
+document.addEventListener("pointerup", (event) => {
+  if (event.button === 0) {
+    mouseDown = false;
+  }
 });
 
 // -----------------------------------------------------------
 // Define the various drawing functions below
 
 function changeColor(event) {
-  if (event.type === "pointerdown" || mouseDown) {
+  if ((event.type === "pointerdown" && event.button === 0) || mouseDown) {
     if (drawMethod !== tintDraw && drawMethod !== shadeDraw) {
       resetShading(event.target);
     }
