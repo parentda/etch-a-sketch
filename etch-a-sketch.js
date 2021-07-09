@@ -10,7 +10,7 @@ const backgroundColorPicker = document.querySelector(
 const gridToggleButton = document.querySelector("#toggle-grid-lines");
 const resetButton = document.querySelector("#reset-button");
 const drawButton = document.querySelector("#draw-button");
-const eraserButton = document.querySelector("#eraser-button");
+const eraseButton = document.querySelector("#erase-button");
 const randomButton = document.querySelector("#random-button");
 const fillButton = document.querySelector("#fill-button");
 const tintButton = document.querySelector("#tint-button");
@@ -74,7 +74,7 @@ drawButton.addEventListener("click", () => {
   drawMethod = basicDraw;
 });
 
-eraserButton.addEventListener("click", () => {
+eraseButton.addEventListener("click", () => {
   drawMethod = eraseDraw;
 });
 
@@ -151,15 +151,13 @@ function floodFillStack(targetCell, targetColor, replacementColor) {
   const stack = [];
   stack.push(targetCell);
   targetCell.style.backgroundColor = replacementColor;
-  let row;
-  let col;
 
   while (stack.length) {
     const currentNode = stack[stack.length - 1];
     stack.pop();
 
-    row = +currentNode.getAttribute("data-row");
-    col = +currentNode.getAttribute("data-col");
+    const row = +currentNode.getAttribute("data-row");
+    const col = +currentNode.getAttribute("data-col");
 
     if (
       row - 1 >= 0 &&
@@ -310,7 +308,7 @@ function drawGrid() {
   } else if (currentTotalCells < gridSize ** 2) {
     while (currentTotalCells < gridSize ** 2) {
       const gridBox = document.createElement("div");
-      gridBox.classList.add("grid-box", "grid-lines");
+      gridBox.classList.add("grid-box", "grid-lines-bottom-right");
       gridBox.addEventListener("pointerdown", changeColor);
       gridBox.addEventListener("mouseover", changeColor);
       sketchContainer.appendChild(gridBox);

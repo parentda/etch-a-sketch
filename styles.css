@@ -1,6 +1,5 @@
 :root {
   --background-color: rgb(255, 255, 255);
-  /* --background-color: hsl(360, 100%, 100%); */
   --line-color: rgb(170, 170, 170);
   --grid-size: 50;
   --border-thin: 1px solid var(--line-color);
@@ -10,9 +9,10 @@
 }
 
 #sketch-container {
-  border: var(--border-thick);
+  border-top: var(--border-thin);
+  border-left: var(--border-thin);
   margin: 10px;
-  background-color: var(--line-color);
+  /* background-color: var(--line-color); */
   /* padding: 1px; */
   height: var(--grid-container-dimensions);
   width: var(--grid-container-dimensions);
@@ -26,6 +26,7 @@
   background-color: var(--background-color);
 }
 
-.grid-lines {
-  border: var(--border-thin);
+.grid-lines-bottom-right {
+  border-right: var(--border-thin);
+  border-bottom: var(--border-thin);
 }
