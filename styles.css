@@ -5,9 +5,10 @@
   --border-thin: 1px solid var(--line-color);
   --border-thick: 4px solid var(--line-color);
   --grid-container-dimensions: 600px;
-  --color1: rgb(192, 83, 83);
-  --color2: ;
-  --color3: rgb(104, 205, 223);
+  --color1: #c44536ff;
+  --color2: #edddd4ff;
+  --color3: #772e25ff;
+  --color4: #197278ff;
   height: 100%;
   font-family: Menlo;
   font-size: 16px;
@@ -19,7 +20,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--color3);
+  background-color: var(--color4);
 }
 
 main {
@@ -38,6 +39,7 @@ header {
   font-weight: bold;
   grid-row: 1 / 1;
   grid-column: 2 / 3;
+  color: var(--color2);
 }
 
 #sketch-container {
@@ -74,12 +76,25 @@ header {
   grid-column: 3 / 4;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
+  color: var(--color2);
 }
 
 #controls-bottom {
   grid-row: 3 / 3;
   grid-column: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--color2);
+}
+
+#grid-size {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
 }
 
 input[type="radio"] {
@@ -92,25 +107,52 @@ input[type="radio"] + label {
   /* margin: -2px; */
   text-align: center;
   padding: 4px 12px;
-  background-color: #e7e7e7;
-  border-color: #ddd;
+  color: var(--color2);
+  background-color: var(--color3);
+  border: 2px solid var(--color2);
+  border-radius: 5px;
 }
 
 input[type="radio"]:checked + label {
-  background-color: #d0d0d0;
+  color: var(--color3);
+  background-color: var(--color2);
 }
 
 input[type="range"] {
+  -webkit-appearance: none;
   width: 100%;
+  /* height: 40px; */
+  /* position: relative; */
+  /* vertical-align: middle; */
+  /* width: 100px; */
+  border-radius: 25px;
+  /* background: hsl(0, 0%, 80%);
+  box-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.6); */
+  overflow: hidden;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: var(--color3);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 30px;
+  background-color: var(--color2);
 }
 
 button {
+  border-style: none;
   padding: 4px 12px;
-  background-color: #e7e7e7;
-  border-color: #ddd;
+  color: var(--color2);
+  background-color: var(--color3);
+  border: 2px solid var(--color2);
+  border-radius: 5px;
   font-family: Menlo;
   font-size: 16px;
-  border-style: none;
 }
 
 .grid-box {
