@@ -53,7 +53,9 @@
         />
         <label for="shade-button">shade</label>
       </div>
-      <div id="sketch-container"></div>
+      <div id="sketch-container">
+        <div id="sketch-grid"></div>
+      </div>
       <div id="controls-right">
         <div id="draw-color">
           <input
@@ -73,7 +75,6 @@
           />
           <label for="background-color-picker">background color</label>
         </div>
-
         <button id="toggle-grid-lines">toggle grid lines</button>
         <button id="reset-button">reset</button>
       </div>
@@ -88,8 +89,8 @@
             step="1"
             value="20"
           />
-          <label for="grid-size-input">grid size</label>
-          <p></p>
+          <div></div>
+          <label for="grid-size-input">grid density</label>
         </div>
       </div>
     </main>

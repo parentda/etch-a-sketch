@@ -1,8 +1,8 @@
 const root = document.documentElement;
 
-const sketchContainer = document.querySelector("#sketch-container");
+const sketchContainer = document.querySelector("#sketch-grid");
 const gridSizeInput = document.querySelector("#grid-size input");
-const gridSizeDisplay = document.querySelector("#grid-size p");
+const gridSizeDisplay = document.querySelector("#grid-size div");
 const drawColorPicker = document.querySelector("#draw-color-picker");
 const backgroundColorPicker = document.querySelector(
   "#background-color-picker"

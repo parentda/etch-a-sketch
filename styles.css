@@ -5,26 +5,29 @@
   --border-thin: 1px solid var(--line-color);
   --border-thick: 4px solid var(--line-color);
   --grid-container-dimensions: 600px;
-  --color1: ;
+  --color1: rgb(192, 83, 83);
   --color2: ;
-  --color3: ;
+  --color3: rgb(104, 205, 223);
   height: 100%;
-  margin: 0px;
   font-family: Menlo;
   font-size: 16px;
 }
 
 body {
   height: 100%;
+  margin: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--color3);
 }
 
 main {
   display: grid;
   grid-template-rows: repeat(3, auto);
   grid-template-columns: repeat(3, auto);
+  background-color: var(--color1);
+  border-radius: 20px;
 }
 
 header {
@@ -38,15 +41,20 @@ header {
 }
 
 #sketch-container {
+  grid-row: 2 / 2;
+  grid-column: 2 / 3;
+  height: var(--grid-container-dimensions);
+  width: var(--grid-container-dimensions);
+}
+
+#sketch-grid {
   border-top: var(--border-thin);
   border-left: var(--border-thin);
   /* margin: 10px; */
-  grid-row: 2 / 2;
-  grid-column: 2 / 3;
   /* background-color: var(--line-color); */
   /* padding: 1px; */
-  height: var(--grid-container-dimensions);
-  width: var(--grid-container-dimensions);
+  height: 100%;
+  width: 100%;
   display: grid;
   grid-template-rows: repeat(var(--grid-size), auto);
   grid-template-columns: repeat(var(--grid-size), auto);
@@ -56,16 +64,39 @@ header {
 #controls-left {
   grid-row: 2 / 2;
   grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
 }
 
 #controls-right {
   grid-row: 2 / 2;
   grid-column: 3 / 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #controls-bottom {
   grid-row: 3 / 3;
   grid-column: 2 / 3;
+}
+
+input[type="radio"] {
+  display: none;
+  margin: 10px;
+}
+
+input[type="radio"] + label {
+  display: inline-block;
+  margin: -2px;
+  padding: 4px 12px;
+  background-color: #e7e7e7;
+  border-color: #ddd;
+}
+
+input[type="radio"]:checked + label {
+  background-image: none;
+  background-color: #d0d0d0;
 }
 
 .grid-box {
