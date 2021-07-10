@@ -4,7 +4,7 @@
   --grid-size: 50;
   --border-thin: 1px solid var(--line-color);
   --border-thick: 4px solid var(--line-color);
-  --grid-container-dimensions: 600px;
+  --grid-container-dimensions: 800px;
   --color1: #c44536ff;
   --color2: #edddd4ff;
   --color3: #772e25ff;
@@ -25,8 +25,10 @@ body {
 
 main {
   display: grid;
-  grid-template-rows: repeat(3, auto);
-  grid-template-columns: repeat(3, auto);
+  grid-template-rows: 125px auto 125px;
+  grid-template-columns: 175px auto 175px;
+  /* grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(3, auto); */
   background-color: var(--color1);
   border-radius: 20px;
 }
@@ -69,6 +71,8 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  /* align-items: center; */
+  padding: 20px;
 }
 
 #controls-right {
@@ -77,8 +81,9 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  align-items: center;
+  /* align-items: center; */
   color: var(--color2);
+  padding: 20px;
 }
 
 #controls-bottom {
@@ -144,6 +149,22 @@ input[type="range"]::-webkit-slider-runnable-track {
   background-color: var(--color2);
 }
 
+input[type="color"] {
+  -webkit-appearance: none;
+  padding: 0px;
+  height: 40px;
+  width: 40px;
+  border: 2px solid var(--color2);
+  border-radius: 5px;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
 button {
   border-style: none;
   padding: 4px 12px;
@@ -162,4 +183,9 @@ button {
 .grid-lines-bottom-right {
   border-right: var(--border-thin);
   border-bottom: var(--border-thin);
+}
+
+.button-press {
+  color: var(--color3);
+  background-color: var(--color2);
 }

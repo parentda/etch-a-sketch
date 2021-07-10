@@ -355,7 +355,10 @@ function create2DArray() {
 
 let gridOn = true;
 
+gridToggleButton.addEventListener("click", toggleGridLines);
+
 function toggleGridLines() {
+  gridToggleButton.classList.toggle("button-press");
   if (gridOn) {
     root.style.setProperty("--border-thin", "0px");
     gridOn = false;
@@ -364,8 +367,6 @@ function toggleGridLines() {
     gridOn = true;
   }
 }
-
-gridToggleButton.addEventListener("click", toggleGridLines);
 
 // -----------------------------------------------------------
 // Reset the sketch container
@@ -384,3 +385,9 @@ function resetStyling() {
 }
 
 resetButton.addEventListener("click", resetStyling);
+resetButton.addEventListener("mousedown", () =>
+  resetButton.classList.add("button-press")
+);
+resetButton.addEventListener("mouseup", () =>
+  resetButton.classList.remove("button-press")
+);
