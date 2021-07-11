@@ -1,20 +1,30 @@
+@font-face {
+  font-family: Bangers;
+  src: url(Bangers-Regular.ttf);
+}
+
 :root {
-  --background-color: rgb(255, 255, 255);
+  --background-color: #edddd4ff;
   --line-color: rgb(170, 170, 170);
   --grid-size: 50;
   --border-thin: 1px solid var(--line-color);
   --border-thick: 4px solid var(--line-color);
   --grid-container-dimensions: 800px;
-  --color1: #59114dff;
+  /* --color1: #59114dff;
   --color2: #e98a15ff;
   --color3: #772e25ff;
-  --color4: #197278ff;
-  /* --color1: #c44536ff;
+  --color4: #197278ff; */
+  /* --color1: #293241ff;
+  --color2: #ee6c4dff;
+  --color3: #3d5a80ff;
+  --color4: #197278ff; */
+  --color1: rgb(177, 52, 39);
   --color2: #edddd4ff;
   --color3: #772e25ff;
-  --color4: #197278ff; */
+  --color4: #003049ff;
   height: 100%;
   font-family: Menlo;
+
   font-size: 20px;
   font-weight: bold;
 }
@@ -35,6 +45,7 @@ main {
   /* grid-template-rows: repeat(3, auto);
   grid-template-columns: repeat(3, auto); */
   background-color: var(--color1);
+  border: 8px solid var(--color2);
   border-radius: 50px;
 }
 
@@ -42,8 +53,8 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 60px;
-  font-weight: bold;
+  font-size: 80px;
+  font-family: Bangers;
   grid-row: 1 / 1;
   grid-column: 2 / 3;
   color: var(--color2);
@@ -117,7 +128,7 @@ input[type="radio"] + label {
   /* display: inline-block; */
   /* margin: -2px; */
   text-align: center;
-  padding: 4px 12px;
+  padding: 8px 12px;
   color: var(--color2);
   background-color: var(--color3);
   border: 3px solid var(--color2);
@@ -157,7 +168,8 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 label[for="grid-size-input"] {
   position: relative;
-  bottom: 10px;
+  bottom: 8px;
+  font-size: 22px;
 }
 
 input[type="color"] {
@@ -193,7 +205,7 @@ input[type="color"]::-webkit-color-swatch {
 
 button {
   border-style: none;
-  padding: 4px 12px;
+  padding: 8px 12px;
   color: var(--color2);
   background-color: var(--color3);
   border: 3px solid var(--color2);
@@ -210,7 +222,7 @@ button {
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 2px;
+  top: 1px;
 }
 
 .grid-box {
