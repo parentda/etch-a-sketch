@@ -43,7 +43,7 @@ header {
   justify-content: center;
   align-items: center;
   font-size: 80px;
-  font-family: Bangers;
+  font-family: Bangers, Menlo;
   grid-row: 1 / 1;
   grid-column: 2 / 3;
   color: var(--color2);
