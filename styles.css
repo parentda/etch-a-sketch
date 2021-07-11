@@ -10,21 +10,12 @@
   --border-thin: 1px solid var(--line-color);
   --border-thick: 4px solid var(--line-color);
   --grid-container-dimensions: 800px;
-  /* --color1: #59114dff;
-  --color2: #e98a15ff;
-  --color3: #772e25ff;
-  --color4: #197278ff; */
-  /* --color1: #293241ff;
-  --color2: #ee6c4dff;
-  --color3: #3d5a80ff;
-  --color4: #197278ff; */
-  --color1: rgb(177, 52, 39);
+  --color1: rgb(141, 35, 23);
   --color2: #edddd4ff;
-  --color3: #772e25ff;
+  --color3: rgb(97, 25, 16);
   --color4: #003049ff;
   height: 100%;
   font-family: Menlo;
-
   font-size: 20px;
   font-weight: bold;
 }
@@ -42,8 +33,6 @@ main {
   display: grid;
   grid-template-rows: 135px auto 135px;
   grid-template-columns: 200px auto 200px;
-  /* grid-template-rows: repeat(3, auto);
-  grid-template-columns: repeat(3, auto); */
   background-color: var(--color1);
   border: 8px solid var(--color2);
   border-radius: 50px;
@@ -70,15 +59,11 @@ header {
 #sketch-grid {
   border-top: var(--border-thin);
   border-left: var(--border-thin);
-  /* margin: 10px; */
-  /* background-color: var(--line-color); */
-  /* padding: 1px; */
   height: 100%;
   width: 100%;
   display: grid;
   grid-template-rows: repeat(var(--grid-size), auto);
   grid-template-columns: repeat(var(--grid-size), auto);
-  /* justify-content: stretch; */
 }
 
 #controls-left {
@@ -87,7 +72,6 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  /* align-items: center; */
   padding: 40px 24px 40px 24px;
 }
 
@@ -97,7 +81,6 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  /* align-items: center; */
   color: var(--color2);
   padding: 100px 24px 100px 24px;
 }
@@ -125,8 +108,6 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label {
-  /* display: inline-block; */
-  /* margin: -2px; */
   text-align: center;
   padding: 8px 12px;
   color: var(--color2);
@@ -143,13 +124,7 @@ input[type="radio"]:checked + label {
 input[type="range"] {
   -webkit-appearance: none;
   width: 675px;
-  /* height: 40px; */
-  /* position: relative; */
-  /* vertical-align: middle; */
-  /* width: 100px; */
   border-radius: 25px;
-  /* background: hsl(0, 0%, 80%);
-  box-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.6); */
   overflow: hidden;
 }
 
